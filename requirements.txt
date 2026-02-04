@@ -1,0 +1,9 @@
+scikit-learn>=1.2
+scikit-image
+scipy<=1.10.0
+joblib
+peppercorn
+plotter
+PyWavelets
+xmipp3-installer>=2.0.4,<3.0.0
+numpy==1.*

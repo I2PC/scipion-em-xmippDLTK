@@ -1,0 +1,14 @@
+#Protocols ussing the enviroment: protocol_tigre_reconstruction
+
+name: xtomo_tigre
+channels:
+  - conda-forge
+  - ccpi
+dependencies:
+  - python=3.6
+  - mrcfile
+  - numpy
+  - tigre
+  - libstdcxx-ng # To be compatible with scipion env
+
+

@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scipion-em-xmippDLTK"
+dynamic = ["version", "dependencies"]
+
+authors = [
+    {name = "Alberto Garcia Mena", email = "alberto.garcia@cnb.csic.es"},
+    {name = "Oier Lauzirika Zarrabeitia", email = "oierlauzi@bizkaia.eu"},
+    {name = "Carlos Oscar Sanchez Sorzano", email = "coss@cnb.csic.es"},
+]
+
+description = "Plugin to use Xmipp protocols that requires DeepLearningToolkit environments, within the Scipion framework"
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ["scipion electron-microscopy cryo-em structural-biology image-processing scipion-3.0"]
+license = {text = "GNU General Public License v3 (GPLv3)"}
+
+[project.urls]
+Homepage = "https://github.com/I2PC/scipion-em-xmippDLTK"
+Issues = "https://github.com/I2PC/scipion-em-xmippDLTK/issues"
+
+[tool.setuptools.dynamic]
+version = {attr = "xmipp3.version.__version__"}
+dependencies = {file = ["requirements.txt"]}
+
+[project.entry-points."pyworkflow.plugin"]
+xmippDLTK = "xmippDLTK"
+
+[tool.setuptools.package-data]
+xmippDLTK = ["protocols.conf", "xmipp_logo_devel.png"]
