@@ -29,8 +29,4 @@ XMIPP_CONDA_ENVS = {
     "versionId": 1 # Increment when the corresponding yml is modified
   },
 
-  "xmipp_jax": {
-    "requirements": os.path.join(_REQUIREMENT_PATH, 'xmipp_jax.yml'),
-    "versionId": 1 # Increment when the corresponding yml is modified
-  },
 }
