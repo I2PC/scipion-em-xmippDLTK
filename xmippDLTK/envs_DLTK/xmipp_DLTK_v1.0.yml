@@ -1,5 +1,5 @@
 #Protocols ussing the enviroment:
-#xmipp_deep_misalingment_detection, protocol_deep_center, protocol_deep_center_predict
+#xmipp_deep_misalingment_detection, protocol_deep_center (legacy), protocol_deep_center_predict(legacy)
 
 name: xmipp_DLTK_v1.0
 channels:
