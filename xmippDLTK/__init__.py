@@ -26,30 +26,18 @@
 # *
 # **************************************************************************
 
-import json
 import re
 import os
 from datetime import datetime
 import pwem
-from pyworkflow import Config
-import pyworkflow.utils as pwutils
-from scipion.install.funcs import CondaCommandDef
-from .base import *
-from .version import *
-from .constants import XMIPP_HOME, XMIPP_URL, XMIPP_DLTK_NAME, XMIPP_CUDA_BIN, XMIPP_CUDA_LIB, XMIPP_GIT_URL, XMIPP3_INSTALLER_URL
 
 
 _references = ['delaRosaTrevin2013', 'Sorzano2013']
-_currentDepVersion = '1.0'
 # Requirement version variables
 NVIDIA_DRIVERS_MINIMUM_VERSION = 450
 
-type_of_version = version.type_of_version
-_logo = version._logo
-_currentDepVersion = version._currentDepVersion
-__version__ = version.__version__
-_xmipp3_installerV = "v2.0.4"
-
+_logo = 'xmipp_logo.png'
+__version__ = '0.1.0'
 
 class Plugin(pwem.Plugin):
 

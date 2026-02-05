@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -23,7 +23,7 @@ Homepage = "https://github.com/I2PC/scipion-em-xmippDLTK"
 Issues = "https://github.com/I2PC/scipion-em-xmippDLTK/issues"
 
 [tool.setuptools.dynamic]
-version = {attr = "xmipp3.version.__version__"}
+version = {attr = "xmippDLTK.__version__"}
 dependencies = {file = ["requirements.txt"]}
 
 [project.entry-points."pyworkflow.plugin"]
