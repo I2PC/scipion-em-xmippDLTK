@@ -65,7 +65,7 @@ try:
 except ImportError as e:
   DEEP_PARTICLE_SIZE = 128
   
-class XmippProtScreenDeepConsensus(ProtParticlePicking, XmippProtocol):
+class XmippDLTKProtScreenDeepConsensus(ProtParticlePicking, XmippProtocol):
     """ Protocol to compute a smart consensus between different particle picking
         algorithms. The protocol takes several Sets of Coordinates calculated
         by different programs and/or different parameter settings. Let's say:

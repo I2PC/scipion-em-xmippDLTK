@@ -52,7 +52,7 @@ LAST_DONE_FILE = "last_done.txt"
 BATCH_UPDATE = 5000
 
 
-class XmippProtClassifyPcaStreaming(ProtStreamingBase, XmippProtClassifyPca):
+class XmippDLTKProtClassifyPcaStreaming(ProtStreamingBase, XmippProtClassifyPca):
     """ Performs a 2D classification of particles using PCA. This method is optimized to run in streaming, enabling efficient processing of large datasets.  """
 
     _label = '2D classification pca streaming'

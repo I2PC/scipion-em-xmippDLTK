@@ -40,7 +40,7 @@ NVIDIA_DRIVERS_MINIMUM_VERSION = 450
 URL_MODELS = "https://scipion.cnb.csic.es/downloads/scipion/software/em"
 DLTK_MODELS = "DLTK_MODELS"
 DLTK_MODELS_DEFAULT = "dltk-models"
-
+NVIDIA_DRIVER_VAR = 'XMIPP3_NVIDIA_DRIVERS'
 _logo = 'xmipp_logo.png'
 __version__ = '0.1.0'
 
@@ -51,7 +51,7 @@ class Plugin(pwem.Plugin):
         cls._defineVar(DLTK_MODELS, DLTK_MODELS_DEFAULT)
 
     @classmethod
-    def getEnviron(cls, xmippFirst=True):
+    def getEnviron(cls):
         pass
 
     @classmethod
@@ -79,38 +79,25 @@ class Plugin(pwem.Plugin):
 
 def syncModels(plugin, env):
     cmd = []
-    models_home = plugin.getVar(DLTK_MODELS)
-    pwutils.makePath(models_home)
-    cmd.append(f'python /sync_data/sync_models.py {models_home} {URL_MODELS} {}')
+    models_home = os.path.join(os.path.dirname(
+        os.path.dirname(
+            os.path.dirname(os.path.abspath(__file__)))), DLTK_MODELS)
 
+    if os.path.isdir(models_home):
+      task = "update"
+      in_progress_task = "Updating"
+      completed_task = "updated"
+    else:
+        pwutils.makePath(models_home)
+        task = "download"
+        in_progress_task = "Downloading"
+        completed_task = "downloaded"
 
+    print(f"{in_progress_task} Deep Learning models")
+
+    cmd.append(f'python /sync_data/sync_models.py {task} {models_home} {URL_MODELS} DLmodels')
     env.addPackage(DLTK_MODELS, urlSuffix='external',
                    commands=cmd, deps=[], tar=DLTK_MODELS + '.tgz')
-
-
-    now = datetime.now()
-    installDLvars = {
-        'modelsUrl': URL_MODELS,
-        'syncBin': plugin.getHome('xmipp_sync_data'),
-        'modelsDir': plugin.getHome('models'),
-        'modelsPrefix': "models_UPDATED_on",
-        'xmippLibToken': 'xmippLibToken',
-        'libXmipp': plugin.getHome('lib/libXmipp.so'),
-        'preMsgsStr': ' ; '.join(preMsgs),
-        'afterMsgs': ", > ".join(cudaMsgs)}
-
-    installDLvars.update({'modelsTarget': "%s_%s_%s_%s"
-                                          % (installDLvars['modelsPrefix'],
-                                             now.day, now.month,
-                                             now.year)})
-
-    modelsDownloadCmd = (
-        "rm %(modelsPrefix)s_* %(xmippLibToken)s 2>/dev/null ; "
-        "echo 'Downloading pre-trained models...' ; "
-        "%(syncBin)s update %(modelsDir)s %(modelsUrl)s DLmodels && "
-        "touch %(modelsTarget)s && echo ' > %(afterMsgs)s'"
-        % installDLvars,  # End of command
-        installDLvars['modelsTarget'])  # Target
 
 
 
@@ -135,6 +122,10 @@ def getNvidiaDriverVersion(plugin):
     """Attempt to retrieve the NVIDIA driver version using different methods.
     Only returns if a valid version string is found.
     """
+    nvidiaDriver =  readNvidiaDriverVar()
+    if nvidiaDriver:
+        return nvidiaDriver
+
     commands = [
         ["nvidia-smi", "--query-gpu=driver_version", "--format=csv,noheader"],
         ["cat", "/sys/module/nvidia/version"]
@@ -159,8 +150,22 @@ def getNvidiaDriverVersion(plugin):
 
     return None  # No valid version found
 
+def readNvidiaDriverVar():
+    output = os.environ.get(NVIDIA_DRIVER_VAR)
+    if output:
+        m = re.match(r'^(\d+)', output)
+        if m:
+            value = m.group(1)
+            return value
+        else:
+            print(f'{NVIDIA_DRIVER_VAR} found but value no valid: {m}')
+
+#
+# env.addPackage(XMIPP_DLTK_NAME, version='1.0', urlSuffix='external',
+#                    commands=cmdsInstall+[modelsDownloadCmd],
+#                    deps=[], tar=XMIPP_DLTK_NAME+'.tgz')
 
 
-env.addPackage(XMIPP_DLTK_NAME, version='1.0', urlSuffix='external',
-                   commands=cmdsInstall+[modelsDownloadCmd],
-                   deps=[], tar=XMIPP_DLTK_NAME+'.tgz')
+if __name__ == '__main__':
+    pl = Plugin()
+    pl.defineBinaries(pl.getEnviron())

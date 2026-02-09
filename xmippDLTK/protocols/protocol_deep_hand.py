@@ -35,7 +35,7 @@ from xmipp3.base import XmippProtocol
 from xmipp3.convert import getImageLocation
 from pyworkflow import BETA, UPDATED, NEW, PROD
 
-class XmippProtDeepHand(EMProtocol, XmippProtocol):
+class XmippDLTKProtDeepHand(EMProtocol, XmippProtocol):
     """Predicts the handedness of a structure using a trained deep learning model. Determining correct handedness is essential in cryo-EM to ensure the accurate interpretation of 3D reconstructions.
     """
 

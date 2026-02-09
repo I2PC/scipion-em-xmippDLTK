@@ -54,7 +54,7 @@ import matplotlib.pyplot as plt
 MAX_SIZE_THUMB=512
 NUM_THUMBNAILS=45
 
-class XmippProtDeepMicrographScreen(ProtExtractParticles, XmippProtocol):
+class XmippDLTKProtDeepMicrographScreen(ProtExtractParticles, XmippProtocol):
     """Removes coordinates located in carbon regions or large impurities in micrographs using a pre-trained deep learning model. This screening improves particle picking accuracy by filtering out false positives from contaminated areas."""
     _label = 'deep micrograph cleaner'
     _conda_env= "xmipp_MicCleaner"
